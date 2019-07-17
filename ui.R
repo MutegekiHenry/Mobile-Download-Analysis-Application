@@ -7,7 +7,7 @@ dashboardPage(
   dashboardSidebar(
     sidebarMenu(
     menuItem("Home",icon = icon("home"), tabName="Home"),
-    menuItem("View Dataset" ,icon = icon("table"), tabName="View Dataset"),
+    menuItem("View Dataset" ,icon = icon("table"), tabName="ViewDataset"),
     menuItem("Summary",icon = icon("list-alt"), tabName="Summary"),
     menuItem("Plot", icon = icon("bar-chart-o"),tabName="Plot"),
     menuItem("Inferences",icon = icon("user-edit"), tabName="Inferences"),
@@ -27,7 +27,7 @@ dashboardPage(
                 It generates insights which are intended to help developers get more people to download their applications.
                 This system analyses how different application features affect the download rate of an application on the store.
                 The app details can be visualized giving a clear understanding of the data to the users.")),
-    tabItem(tabName="View Dataset",
+    tabItem(tabName="ViewDataset",
             h2("Dataset")),
     tabItem(tabName = "Summary",
             h2("Summary Contents")),
@@ -178,7 +178,10 @@ dashboardPage(
           ## end
           ),
     tabItem(tabName = "Inferences",
-            h2("Inferences Contents")),
+            h2("Inferences")
+            
+            
+            ),
     tabItem(tabName="Help",
             tabsetPanel( tabPanel("Extras",tableOutput("extras"),
                                   h3("How to view Dataset"),
