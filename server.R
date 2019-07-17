@@ -1,5 +1,6 @@
 library(shiny)
 library(DT)
+
 function(input, output){
   
     #-------------------------------------------------------------------------
@@ -17,6 +18,7 @@ function(input, output){
           menuItem("Help")
           
     })
+    
 #Load the csv
 data1 <- read.csv('googleplaystore.csv')
 
