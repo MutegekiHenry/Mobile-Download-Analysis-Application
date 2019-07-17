@@ -32,7 +32,151 @@ dashboardPage(
     tabItem(tabName = "Summary",
             h2("Summary Contents")),
     tabItem(tabName="Plot",
-            h2("Plot contents")),
+          ##start
+          ui<-fluidPage(
+            
+            fluidRow(
+              
+              tabsetPanel(type="tab",
+                          tabPanel("Title 1",
+                                   h3("Description"),
+                                   p("Page Description."),
+                                   fluidRow(
+                                     
+                                     box(title = "Box Title",status = "primary",solidHeader = T,
+                                         sliderInput("bins","Number of Breaks",1,100,50)
+                                     ),
+                                     box(title = "Box title",status = "primary",solidHeader = T,
+                                         "Some text",
+                                         selectInput("id","Choose",c("option1","option2"),selected = "option1")
+                                     )
+                                     
+                                     
+                                     
+                                   ),
+                                   fluidRow(
+                                     
+                                     
+                                     plotOutput("id")
+                                     
+                                     
+                                   )
+                                   
+                                   
+                                   
+                                   
+                          ),
+                          tabPanel("Price",
+                                   h3("Description"),
+                                   p("Page Description"),
+                                   ui<-fluidPage(
+                                     fluidRow(
+                                       plotOutput("id")
+                                     ),
+                                     fluidRow(
+                                       box(title = "Box Title",status = "primary",solidHeader = T,
+                                           selectInput("id","select category",c("Option1","option2"),selected = "boxplot_variation")
+                                       )
+                                       
+                                     )
+                                   )
+                          ),
+                          tabPanel("Size",
+                                   h3("Description"),
+                                   p("Page Description"),
+                                   ui<-fluidPage(
+                                     fluidRow(
+                                       plotOutput("id")
+                                     ),
+                                     fluidRow(
+                                       box(title = "Box Title",status = "primary",solidHeader = T,
+                                           selectInput("id","select category",c("plot1","plot2"),selected = "plot1")
+                                       )
+                                       
+                                     )
+                                   )
+                                   
+                          ),
+                          tabPanel("Title 4",
+                                   h3("Description"),
+                                   p("Page description ."),
+                                   ui<-fluidPage(
+                                     fluidRow(
+                                       plotOutput("id")
+                                     ),
+                                     fluidRow(
+                                       box(title = "Box Title",status = "primary",solidHeader = T,
+                                           selectInput("id","select category",c("plot1","plot2"),selected = "plot1")
+                                       )
+                                       
+                                     )
+                                   )
+                                   
+                          ),
+                          tabPanel("Content rating",
+                                   h3("Description"),
+                                   p("Page Description "),
+                                   ui<-fluidPage(
+                                     fluidRow(
+                                       plotOutput("id")
+                                       
+                                     ),
+                                     fluidRow(
+                                       box(title = "Box Title",status = "primary",solidHeader = T,
+                                           selectInput("id","select category",c("plot1","plot2"),selected = "plot1")
+                                       )
+                                     )
+                                   )
+                                   
+                          ),
+                          tabPanel("Title 6",
+                                   h3("Description"),
+                                   p("Page Description"),
+                                   ui<-fluidPage(
+                                     fluidRow(
+                                       plotOutput("id")
+                                     ),
+                                     fluidRow(
+                                       box(title = "Box Title",status = "primary",solidHeader = T,
+                                           selectInput("id","select category",c("plot1","plot2"),selected = "plot1")
+                                           
+                                       )
+                                     )
+                                   )
+                          ),
+                          tabPanel("App Versions",
+                                   h3("Description"),
+                                   p("Page Description"),
+                                   ui<-fluidPage({
+                                     plotOutput("id")
+                                   })
+                                   
+                          ),
+                          tabPanel("Comparison in Groups",
+                                   h3("Description"),
+                                   p("Page Description"),                                        
+                                   ui<-fluidPage(
+                                             fluidRow(
+                                               box(title = "Box Title",status = "primary",solidHeader = T,
+                                                   "Some text here",
+                                                   selectInput("id","select app property",c("option 1","option 2","option 3","option 4","option 5"),selected = "option1")
+                                               )
+                                               
+                                             ),
+                                             fluidRow(
+                                               plotOutput("id")
+                                             )
+                                           )
+                          )
+              )
+              
+            )
+            
+            
+          ) 
+            
+          ## end
+          ),
     tabItem(tabName = "Inferences",
             h2("Inferences Contents")),
     tabItem(tabName="Help",
