@@ -6,12 +6,12 @@ dashboardPage(
   dashboardHeader(title="MDA-App"),
   dashboardSidebar(
     sidebarMenu(
-    menuItem("Home", tabName="Home"),
-    menuItem("View Dataset", tabName="View Dataset"),
-    menuItem("Summary", tabName="Summary"),
-    menuItem("Plot", tabName="Plot"),
-    menuItem("Inferences", tabName="Inferences"),
-    menuItem("Help", tabName="Help" ,icon = icon("cog", lib = "glyphicon"))
+    menuItem("Home",icon = icon("home"), tabName="Home"),
+    menuItem("View Dataset" ,icon = icon("table"), tabName="View Dataset"),
+    menuItem("Summary",icon = icon("list-alt"), tabName="Summary"),
+    menuItem("Plot", icon = icon("bar-chart-o"),tabName="Plot"),
+    menuItem("Inferences",icon = icon("user-edit"), tabName="Inferences"),
+    menuItem("Help", tabName="Help" ,icon = icon("info-circle"))
     
   )
   ),
