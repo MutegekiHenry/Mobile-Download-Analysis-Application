@@ -6,7 +6,7 @@ dashboardPage(
   dashboardSidebar(
     sidebarMenu(
     menuItem("Home", tabName="Home"),
-    menuItem("View Dataset", tabName="View Dataset"),
+    menuItem("View Dataset", tabName="Dataset"),
     menuItem("Summary", tabName="Summary"),
     menuItem("Plot", tabName="Plot"),
     menuItem("Inferences", tabName="Inferences"),
@@ -26,8 +26,16 @@ dashboardPage(
                 It generates insights which are intended to help developers get more people to download their applications.
                 This system analyses how different application features affect the download rate of an application on the store.
                 The app details can be visualized giving a clear understanding of the data to the users.")),
-    tabItem(tabName="View Dataset",
-            h2("Dataset")),
+    
+    tabItem(tabName="Dataset",
+            h2("Google Play Store Dataset"),
+           fluidPage(fluidRow(column(12,
+                                      div(dataTableOutput("dataTable")
+            )
+           )))
+            
+            
+            ),
     tabItem(tabName = "Summary",
             h2("Summary Contents")),
     tabItem(tabName="Plot",
