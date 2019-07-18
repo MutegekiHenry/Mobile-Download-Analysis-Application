@@ -1,4 +1,5 @@
-
+library(shiny)
+library(DT)
 library(tidyverse)
 library(highcharter) 
 library(lubridate)
@@ -45,20 +46,44 @@ data.clean <- data_d %>%
 
 str(data.clean)
 
+
 function(input, output){
- 
-  output$menuItem <-renderMenu({
-    menuItem("Home")
-    menuItem("View Dataset")
-    menuItem("Summary")
-    menuItem("Plot")
-    menuItem("Inferences")
-    menuItem("Help")
+  
+    #-------------------------------------------------------------------------
     
-  })
-  
-  
-  
-  
-  
+    #rendering Menu
+    
+    #-------------------------------------------------------------------------    
+    output$menuItem <-renderMenu({
+      
+          menuItem("Home")
+          menuItem("View Dataset")
+          menuItem("Summary")
+          menuItem("Plot")
+          menuItem("Inferences")
+          menuItem("Help")
+          
+    })
+    
+
+#-------------------------------------------------------------------------
+
+#rendering data
+
+#-------------------------------------------------------------------------
+
+
+output$dataTable <- renderDT(
+  data_d, # data
+  class = "display nowrap compact", # style
+  filter = "top", # location of column filters
+  options = list(  # options
+    scrollX = TRUE # allow user to scroll wide tables horizontally
+  )
+)
+
+
 }
+
+
+
