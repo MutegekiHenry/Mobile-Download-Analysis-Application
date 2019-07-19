@@ -8,8 +8,40 @@ library(xts)
 library("magrittr")
 
 
-data_d <- read.csv("C:/Users/Hewitt/Desktop/recess/googleplaystore.csv")
+data_d<-read.csv("googleplaystore.csv")
 str(data_d)
+
+
+function(input, output){
+  output$dataTable <- renderDT(
+    data.clean, # data
+    class = "display nowrap compact", # style
+    filter = "top",# location of column filters
+    options = list(  # options
+      scrollX = TRUE # allow user to scroll wide tables horizontally
+    )
+    
+  )
+
+#-------------------------------------------------------------------------
+
+#rendering Menu
+
+#-------------------------------------------------------------------------    
+output$menuItem <-renderMenu({
+  
+  menuItem("Home")
+  menuItem("View Dataset")
+  menuItem("Summary")
+  menuItem("Plot")
+  menuItem("Inferences")
+  menuItem("Help")
+  
+})
+
+
+  
+
 
 
 data.clean <- data_d %>%
@@ -44,43 +76,15 @@ data.clean <- data_d %>%
     Type %in% c("Free", "Paid")
   )
 
+
 str(data.clean)
 
 
-function(input, output){
-  
-    #-------------------------------------------------------------------------
-    
-    #rendering Menu
-    
-    #-------------------------------------------------------------------------    
-    output$menuItem <-renderMenu({
-      
-          menuItem("Home")
-          menuItem("View Dataset")
-          menuItem("Summary")
-          menuItem("Plot")
-          menuItem("Inferences")
-          menuItem("Help")
-          
-    })
-    
-
-#-------------------------------------------------------------------------
-
 #rendering data
 
-#-------------------------------------------------------------------------
 
+    
 
-output$dataTable <- renderDT(
-  data_d, # data
-  class = "display nowrap compact", # style
-  filter = "top", # location of column filters
-  options = list(  # options
-    scrollX = TRUE # allow user to scroll wide tables horizontally
-  )
-)
 
 
 }
