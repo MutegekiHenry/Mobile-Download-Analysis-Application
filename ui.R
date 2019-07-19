@@ -53,9 +53,12 @@ dashboardPage(
                        of the several model fit functions. Some of these invoke methods
                        which depend on the class. Mean, Median,Min,Max,1st Quartile and 3rd Quartile
                        are some of the values that are displayed along with
-                       the indivudual statistics of the data we are analyzing. Some of the samaries shown in the
+                       the indivudual statistics of the data we are analyzing. Some of the sumaries shown in the
                        left of this particular box include the classification stats by content rating, by reviews, 
-                       by category and so on as we explore in the boxes below to assess individual column summaries"))
+                       by category and so on as we explore in the boxes below to assess individual column summaries.
+                       When you click on plots tab, diffrent statistics of this data are plotted to represent 
+                       the statistics graphically. 
+                       Example fields used are the category, Installs, Reviews and so many more stats are plotted"))
                     
             
     )
@@ -87,18 +90,58 @@ dashboardPage(
             h2("Plot contents"),
             fluidRow(
               box(
-                title = "Category",
-                sliderInput("obs","No of Observations",
-                            min = 1,
-                            max = 10,
-                            value = 1,
-                            label = "Box plot for category"),
+                title = "Genre Install Density Distribution",
+                
                 status = "primary",
                 solidHeader = TRUE, 
                 collapsible = TRUE,
                 plotOutput("plot")
+              ),
+              box(
+                title = "Bar Plot for Content Rating",
+                status = "primary",
+                solidHeader = TRUE, 
+                collapsible = TRUE,
+                plotOutput("plot3")
               )
               
+            ),
+            #Row for pie charts
+            fluidRow(
+              box(
+                title = "Pie Chart for Installs",
+                status = "primary",
+                solidHeader = TRUE, 
+                collapsible = TRUE,
+                plotOutput("plot2")
+              ),
+              box(
+                title = "Pie Chart for App Categories",
+                status = "primary",
+                solidHeader = TRUE, 
+                collapsible = TRUE,
+                plotOutput("plot1")
+              )
+              
+              
+            ),
+            
+            fluidRow(
+              box(
+                title = "Bar Chart of Installs",
+                status = "primary",
+                solidHeader = TRUE, 
+                collapsible = TRUE,
+                plotOutput("plot4")
+              ),
+              box(
+                title = "Bar Chart for Category against Installs",
+                status = "primary",
+                solidHeader = TRUE, 
+                collapsible = TRUE,
+                
+                plotOutput("plot5")
+              )
             )
             
             ),
