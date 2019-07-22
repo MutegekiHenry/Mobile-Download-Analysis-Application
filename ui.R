@@ -47,7 +47,40 @@ dashboardPage(
       ),
       
       tabItem(tabName = "Summary",
-              h2("Summary Contents")),
+              h2("Summary Contents"),
+              #Code for summary
+              
+              fluidPage(
+                title = "Overall Summary",
+                status = "primary",
+                solidHeader = T,
+                collapsible = TRUE,
+                "App details according to variable name",
+                verbatimTextOutput("summary")
+              ),
+              
+              #summary by column
+              fluidRow(
+                box(title = "App Data Column",
+                    status = "primary",
+                    solidHeader = T,
+                    collapsible = TRUE,
+                    "To view summary, select a variable below",
+                    selectInput("variable","Choose Variable",c("Category","Rating","Reviews","Size",
+                                                               "Installs","Type","Content.Rating","Genres",
+                                                               "Last.Updated"),selected = "Category")
+                    
+                ),
+                #Box for displaying individual column summary
+                box(title = "Individual columns",
+                    status = "primary",
+                    solidHeader = T,
+                    collapsible = TRUE,
+                    verbatimTextOutput("summary1")
+                )
+              )
+              ),
+      
       
       tabItem(tabName="Plot",
               fluidPage(
@@ -55,9 +88,24 @@ dashboardPage(
                 fluidRow(
                   
                   tabsetPanel(type="tab",
-                              tabPanel("Title 1",
+                              tabPanel("Installs",
                                        h3("Description"),
-                                       p("Page Description.")
+                                       p("Page Description."),
+                                       box(
+                                         title = "Bar Chart of Installs",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         plotOutput("plot4")
+                                       ),
+                                       box(
+                                         title = "Bar Chart for Category against Installs",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         
+                                         plotOutput("plot5")
+                                       )
                                        
                               ),
                               
@@ -71,20 +119,49 @@ dashboardPage(
                                        h3("Description"),
                                        p("Page Description")
                               ),
-                              tabPanel("Title 4",
+                              tabPanel("Pie Charts",
                                        h3("Description"),
-                                       p("Page description .")
+                                       p("Page description:"),
+                                       box(
+                                         title = "Pie Chart for Installs",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         plotOutput("plot2")
+                                       ),
+                                       box(
+                                         title = "Pie Chart for App Categories",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         plotOutput("plot1")
+                                       )
                                        
                                        
                               ),
                               tabPanel("Content rating",
                                        h3("Description"),
-                                       p("Page Description ")
+                                       p("Page Description "),
+                                       box(
+                                         title = "Bar Plot for Content Rating",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         plotOutput("plot3")
+                                       )
                                        
                               ),
-                              tabPanel("Title 6",
+                              tabPanel("Density Plots",
                                        h3("Description"),
-                                       p("Page Description")
+                                       p("Page Description"),
+                                       box(
+                                         title = "Genre/Install Density Distribution",
+                                         
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         plotOutput("plot")
+                                       )
                                        
                               ),
                               tabPanel("App Versions",
@@ -95,7 +172,15 @@ dashboardPage(
                               ),
                               tabPanel("Comparison in Groups",
                                        h3("Description"),
-                                       p("Page Description")                                       
+                                       p("Page Description"),
+                                       box(
+                                         title = "Box Plot with some Dot",
+                                         
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         plotOutput("plot6")
+                                       )
                                        
                               )
                               
