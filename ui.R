@@ -90,7 +90,7 @@ dashboardPage(
             h2("Plot contents"),
             fluidRow(
               box(
-                title = "Genre Install Density Distribution",
+                title = "Genre/Install Density Distribution",
                 
                 status = "primary",
                 solidHeader = TRUE, 
@@ -142,12 +142,42 @@ dashboardPage(
                 
                 plotOutput("plot5")
               )
+            ),
+            fluidRow(
+              box(
+                title = "Box Plot with some Dot",
+                
+                status = "primary",
+                solidHeader = TRUE, 
+                collapsible = TRUE,
+                plotOutput("plot6")
+              )
+              
             )
             
             ),
     
     tabItem(tabName = "Inferences",
-            h2("Inferences Contents")),
+            h2("Inferences Contents"),
+            p('Genre/Install Density Distribution:'),
+            p('From the way the plot is plotted, it is safe to deduce that most Art and Design 
+              apps have 10000,100000 and some few with about 50000 installs. Another series of clusters 
+              appears in the vehicle category with 1,000,000, 100000 and a few with 50000.
+              Those two categories have high density population at 100,000 installs'),
+            p('Content Rating Bar Plot:'),
+            p('Bar plot represesnts content rating along the y-axis and the counts in that 
+              specific content rating category count is plotted on the x-axis.
+              It is shown that apps developed with no restriction i.e. Apps developed for everyone 
+              have the highest count implying that hubs can emphasize developing apps that
+              cut across generations'),
+            p('Pie Chart for Installs:'),
+            p('Pie chart for installs indicates the significant number of downloads are for 
+              apps of 4.0 and above versions. That can act as an indicator of the projected 
+              installs over the application versioning.'),
+            p('Pie Chart for App Category:'),
+            p('Pie chart for Category emphasizes what we shal talk about the bar graph
+              for the categories. Family is a category with relatively high installs')
+    ),
     
     tabItem(tabName="Help",
             h2("Help contents"))

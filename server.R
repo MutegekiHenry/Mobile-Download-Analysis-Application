@@ -2,6 +2,10 @@ library(plotly)
 library(plotrix)
 library(ggplot2)
 library(RColorBrewer)
+library(gganimate)
+library(tweenr)
+library(tidyverse)
+
 function(input, output){
   googleplaystore <- read.csv("D:/BEN/R Data Analysis/Software and sample data/googleplaystore.csv")
   df<-data.frame(googleplaystore) 
@@ -67,6 +71,7 @@ function(input, output){
     ggplot(data = googleplaystore[1:200,], aes(x = Genres, y = Installs)) +
       geom_violin(alpha = 0) +
       geom_jitter(alpha = 0.5, color = "tomato")
+      #curve(-17.579 + 3.932*x, add=TRUE)
   })
   
   #Pie Chart for category
@@ -97,10 +102,8 @@ function(input, output){
   
   #bar plot for Apps against downloads
   output$plot4<-renderPlot({
-    
-    #horizontal barplot
     cyl<-googleplaystore$Installs
-    
+    #lm(formula = Genre~Installs)
     ggplot(googleplaystore, aes(x=as.factor(cyl), fill=as.factor(cyl) )) +
       geom_bar() 
       #+ coord_flip()
@@ -119,4 +122,15 @@ function(input, output){
             border = "gold"
     )
       })
+  
+  #box plot for 
+  output$plot6<-renderPlot({
+    installs<-c(googleplaystore$Installs)
+    app<-(googleplaystore$Category)
+    boxplot(installs ~ app,xlab="Category",
+            ylab="Freq in 5's",
+            data=googleplaystore$Installs,
+            col="gold")
+  })
+  
 }
