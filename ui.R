@@ -89,8 +89,7 @@ dashboardPage(
                   column(12,
                          div(
                            DT::dataTableOutput("mytable")
-                         )
-                  )
+                         ))
                 )
               )
       ),
