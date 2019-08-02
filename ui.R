@@ -1,5 +1,6 @@
 library(shinydashboard)
-library(shiny)
+library(DT)
+#library(shiny)
 
 dashboardPage(
   skin = "purple",
@@ -9,25 +10,28 @@ dashboardPage(
       menuItem("Home",icon = icon("home"), tabName="Home"),
       menuItem("View Dataset" ,icon = icon("table"), tabName="ViewDataset"),
       menuItem("Summary",icon = icon("list-alt"), tabName="Summary"),
-      menuItem("Plot", icon = icon("bar-chart-o"),tabName="Plot"),
+      menuItem("Visualization", icon = icon("bar-chart-o"),tabName="Plot"),
       menuItem("Technical Insights", tabName="technical" ,icon = icon("info-circle")),
       menuItem("Inferences",icon = icon("user-edit"), tabName="Inferences"),
       menuItem("Help", tabName="Help" ,icon = icon("info-circle"))
-     
     )
   ),
   dashboardBody(
+   
+    #UI Info Box code
     fluidPage({
       fluidRow(
-        infoBox('infoBox',
+        infoBox('median', 
+                width = 3,
                 valueBoxOutput("valueBox1")),
-        infoBox('progressBar',
+        infoBox('max_',width = 3,
                 valueBoxOutput("valueBox2")),
-        infoBox('Apps',
-                valueBoxOutput("valueBox3"))
+        infoBox('TotalApps',width = 3,
+                valueBoxOutput("valueBox3")),
+        infoBox('Mature Content',width = 3,
+                valueBoxOutput("valueBox4"))
       )
     }),
-    
    
     tabItems(
       tabItem(tabName = "Home", 
@@ -35,10 +39,10 @@ dashboardPage(
               h1("Welcome to MDA- App"),
               
               h3(
-                p("MDA-App is data system that analyzes app details from Google Play Store. 
-                It generates insights which are intended to help developers get more people to download their applications.
-                This system analyses how different application features affect the download rate of an application on the store.
-                The app details can be visualized giving a clear understanding of the data to the users."),
+                p("MDA-App is an R Application that analyzes app details from Google Play Store. 
+                It generates insights which are intended to help developers optimize their applicatios to enhance their downloads.
+                This system analyses how different application features affect the download rate of an application on play store.
+                The app details can be visualized giving a clear understanding of the data"),
                 p("The Internet is a true gold mine of data. E-commerce and review sites are brimming with a lot of untapped data with a prominent potential to convert into meaningful insights that can help with robust decision making.
               Here, we explore using data science and machine learning techniques on data retrieved from one such avenue on the internet, the Google Play Store.
               Details of Dataset:
@@ -84,7 +88,7 @@ dashboardPage(
                 fluidRow(
                   column(12,
                          div(
-                           dataTableOutput("dataTable")
+                           DT::dataTableOutput("mytable")
                          )
                   )
                 )
@@ -166,36 +170,37 @@ dashboardPage(
                               ),# end of Dynamic Bar Plots
                               
                               tabPanel("Histograms",
-                                       
-                                       selectInput(inputId="y-selector",
-                                                   label = "Select y axis",
-                                                   choices = c("Category"="Cat",
-                                                               "Rating"="Rat",
-                                                               "Reviews"="Rev",
-                                                               "Size"="Siz",
-                                                               "Installs"="Ins",
-                                                               "Type"="Typ",
-                                                               "Price"="Pri",
-                                                               "Content.Rating"="Cont",
-                                                               "Genres"="Gen",
-                                                               "Last.Updated"="Las",
-                                                               "Current.Ver"="Cur",
-                                                               "Android.Ver"="And"
-                                                   ))
+                                       sliderInput("SlideHist","Histogram Slider",
+                                                   min=1,
+                                                   max=200,
+                                                   value = 10
+                                                   ),
+                                  
+                                      selectInput("histo","Histogram selector",
+                                                   choices = c("Category",
+                                                               "Installs",
+                                                               "Last.Updated"
+                                                               
+                                                   )),
+                                       box(
+                                         title = "Histograms...",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         plotOutput("hist")
+                                       )
                               ),
                               
                               tabPanel("Scatter Plots",
                                        selectInput("scat","Scatter Selector",
                                                    label = "Select Scatter Variable",
-                                                   choices = c("Category",
-                                                               "Rating",
-                                                               "Reviews",
+                                                   choices = c(
                                                                "Size",
                                                                "Installs",
                                                                "Type",
                                                                "Price",
                                                                "Content.Rating",
-                                                               "Genres"="Gen",
+                                                               "Genres",
                                                                "Last.Updated",
                                                                "Current.Ver",
                                                                "Android.Ver"
@@ -210,7 +215,7 @@ dashboardPage(
                                             plotOutput("sscatter")
                                           ),
                                        box(
-                                         title = "Another Scatter Plot",
+                                         title = "Dynamic Scatter Plot",
                                          status = "primary",
                                          solidHeader = TRUE, 
                                          collapsible = TRUE,
@@ -226,8 +231,8 @@ dashboardPage(
                               tabPanel("Pie Charts",
                                        selectInput("pie","Pie Chart Selector",
                                                    label = "Select Column to View:",
-                                                   choices = c("Rating",
-                                                               "Last.Updated"
+                                                   choices = c("Content.Rating",
+                                                               "Last.Updated","Genres"
                                                    )
                                        ),
                                        box(
@@ -248,45 +253,17 @@ dashboardPage(
                               ),#end of Pie Chart Analysis
                               
                               tabPanel("Box Plots",
-                                       selectInput("xs","x selector",
-                                                   label = "Select x axis",
-                                                   choices = c("Category",
-                                                               "Rating",
-                                                               "Reviews",
-                                                               "Size",
-                                                               "Installs",
-                                                               "Type",
-                                                               "Price",
-                                                               "Content.Rating",
-                                                               "Genres",
-                                                               "Last.Updated",
-                                                               "Current.Ver",
-                                                               "Android.Ver"
-                                                   )
-                                       ),
-                                       selectInput("ys","y selecter",
-                                                   label = "Select y axis",
-                                                   choices = c("Category"="Cat",
-                                                               "Rating"="Rat",
-                                                               "Reviews"="Rev",
-                                                               "Size"="Siz",
-                                                               "Installs"="Ins",
-                                                               "Type"="Typ",
-                                                               "Price"="Pri",
-                                                               "Content.Rating"="Cont",
-                                                               "Genres"="Gen",
-                                                               "Last.Updated"="Las",
-                                                               "Current.Ver"="Cur",
-                                                               "Android.Ver"="And"
-                                                   )),
                                        box(
-                                         title = "Bar Plot for Content Rating",
+                                         title = "General Box Plot",
                                          status = "primary",
                                          solidHeader = TRUE, 
                                          collapsible = TRUE,
+                                         
                                          plotOutput("plot3")
-                                       )
+                                         
+                                      
                                        
+                              )
                               ),
                               
                               tabPanel("Density Plots",
@@ -347,8 +324,7 @@ dashboardPage(
                                        h3("Description"),
                                        p("Page Description"),
                                        box(
-                                         title = "Box Plot with some Dot",
-                                         
+                                         title = "Comparison in Groups Plot",
                                          status = "primary",
                                          solidHeader = TRUE, 
                                          collapsible = TRUE,
@@ -360,6 +336,7 @@ dashboardPage(
               
       ),
       #kaca
+      
       #Render for user inferences
       tabItem(tabName = "technical",
               p('Genre/Install Density Distribution:'),
@@ -379,29 +356,26 @@ dashboardPage(
               installs over the application versioning.'),
               p('Pie Chart for App Category:'),
               p('Pie chart for Category emphasizes what we shal talk about the bar graph
-              for the categories. Family is a category with relatively high installs')
-              
+              for the categories. Family is a category with relatively high installs'),
+              p('Scatter Plot:'),
+              p('Inference to be made by users.............')
       ),
       
       
       tabItem(tabName = "Inferences",
-              textAreaInput("caption",
-                            "Enter Name Here"),
+              h4(
+              p("Instructions of Usage: Enter name,select plot to infer and enter inference then click Submit")),
+             
+              textAreaInput("caption", "Enter Name Here"),
               
               selectInput("infer","Choose Graph to Infer",
                           choices = c("Bar Plot","Pie Chart","Density Plot")),
               
-              textAreaInput("xyz",
-                            "Enter inference Here",
-                            width = "500px"),
+              textAreaInput("alto","Enter inference Here",width = "500px"),
               
-              submitButton("Submit"),
-              
-              verbatimTextOutput("insights")
-              
-              
-              
-              
+              #submitButton("Submit"),
+            
+              verbatimTextOutput("insights")        
               
       ),
       
