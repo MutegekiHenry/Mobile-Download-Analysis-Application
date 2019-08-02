@@ -21,8 +21,32 @@ library(httpuv)
 
 function(input, output){
   
+   
+  #code to diisplay the select option for the loaded files.
+  output$selectfile<-renderUI({
+    if(is.null(input$file1)){return()}
+    list(
+      hr(),
+      helpText("select the file you need"),
+      selectInput("select","select",choices = input$file1$name)
+    )
+  })
+  
+  
+  data<-reactive({
+    req(input$file1)
+    
+    df <- read.csv(input$file1$datapath[input$file1$name==input$select],
+                   header = input$header,
+                   sep = input$sep,
+                   quote = input$quote)
+    return(df)
+  })
+  
+  
+  #code to display  the loaded files
   output$mytable = DT::renderDataTable(
-    data.clean, # data
+    data(), # data
     class = "display nowrap compact", # style
     filter = "top",# location of column filters
     options = list(  # options
@@ -31,6 +55,8 @@ function(input, output){
       lengthMenu=c(1:100)
     )
   )
+  
+  
   
   #-------------------------------------------------------------------------
   
@@ -50,7 +76,7 @@ function(input, output){
   })
   
   data_d<-read.csv("googleplaystore.csv")
-  #str(data_d)
+
   
   data.clean <- data_d %>%
     mutate(
@@ -84,7 +110,7 @@ function(input, output){
       Type %in% c("Free", "Paid")
     )
   
-  str(data.clean)
+  #str(data.clean)
   
   
   #rendering data
@@ -119,15 +145,15 @@ function(input, output){
     )
   })
   
-  output$valueBox4 <- renderInfoBox({
-    infoBox(title = "mean",
-            value = 499+3,"Apps",
-            #subtitle = "median value in dataset column Installs",
-            fill = FALSE,
-            icon("affiliatetheme"),
-            color="blue"
-    )
-  })
+  # output$valueBox4 <- renderInfoBox({
+  #   infoBox(title = "mean",
+  #           value = 499+3,"Apps",
+  #           #subtitle = "median value in dataset column Installs",
+  #           fill = FALSE,
+  #           icon("affiliatetheme"),
+  #           color="blue"
+  #   )
+  # })
   
   #Summary Content Code
   #Prints overall summary

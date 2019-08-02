@@ -21,15 +21,11 @@ dashboardPage(
     #UI Info Box code
     fluidPage({
       fluidRow(
-        infoBox('median', 
-                width = 3,
-                valueBoxOutput("valueBox1")),
-        infoBox('max_',width = 3,
-                valueBoxOutput("valueBox2")),
-        infoBox('TotalApps',width = 3,
-                valueBoxOutput("valueBox3")),
-        infoBox('Mature Content',width = 3,
-                valueBoxOutput("valueBox4"))
+        infoBoxOutput("valueBox1"),
+        infoBoxOutput("valueBox2"),
+        infoBoxOutput("valueBox3")
+        # infoBoxOutput("valueBox4")
+        
       )
     }),
    
@@ -85,12 +81,69 @@ dashboardPage(
               h2("Google Play store dataset"),
               
               fluidPage(
-                fluidRow(
-                  column(12,
-                         div(
-                           DT::dataTableOutput("mytable")
-                         ))
+                
+                
+                # App title ----
+                titlePanel("Uploading Files"),
+                
+                # Sidebar layout with input and output definitions ----
+                sidebarLayout(
+                  
+                  # Sidebar panel for inputs ----
+                  sidebarPanel(
+                    
+                    # Input: Select a file ----
+                    fileInput("file1", "Choose CSV File",
+                              multiple = TRUE,
+                              accept = c(
+                                ".csv")),
+                    
+                    uiOutput("selectfile"),
+                    
+                    # Horizontal line ----
+                    tags$hr(),
+                    
+                    # Input: Checkbox if file has header ----
+                    checkboxInput("header", "Header", TRUE),
+                    
+                    # Input: Select separator ----
+                    radioButtons("sep", "Separator",
+                                 choices = c(Comma = ",",
+                                             Semicolon = ";",
+                                             Tab = "\t"),
+                                 selected = ","),
+                    
+                    radioButtons("quote", "Quote",
+                                 choices = c(None = "",
+                                             "Double Quote" = '"',
+                                             "Single Quote" = "'"),
+                                 selected = '"'),
+                    
+                    # Horizontal line ----
+                    tags$hr(),
+                    
+                    # Input: Select number of rows to display ----
+                    radioButtons("disp", "Display",
+                                 choices = c(Head = "head",
+                                             All = "all"),
+                                 selected = "head")
+                    
+                  ),
+                  
+                  # Main panel for displaying outputs ----
+                  mainPanel(
+                    fluidRow(
+                      column(12,
+                             div(
+                               DT::dataTableOutput("mytable")
+                             ))
+                    )
+                    
+                  )
+                  
                 )
+                
+       
               )
       ),
       
