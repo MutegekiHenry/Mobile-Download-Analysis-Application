@@ -554,7 +554,7 @@ function(input, output){
   })
   
   #Histogramsss plotedddd
-  output$hist<-renderPlot({
+  output$histo<-renderPlot({
     if(input$histo=="Category"){
       
       plot(googleplaystore$Category,n=input$sliderHist, main="Histogram for App Category")
@@ -565,4 +565,44 @@ function(input, output){
     }
       
   })
+  
+#NEW HIST
+
+  output$hist<-renderPlot({
+    if(input$appDetails== "app_rating"){
+      #plot a bar graph showing the distribution of user ratings
+      return(ggplot(data = data.clean,aes(x=Rating))+geom_histogram(bins = input$bins)+
+               labs(title="A Histogram showing the distribution of user ratings",
+                    x="App Ratings",
+                    y="Number of apps"))
+    }
+    if(input$appDetails== "size"){
+      #plot a bar graph to show the distribution of app g roups
+      return( ggplot(data=data.clean,aes(x=Size))+
+                geom_histogram(bins = input$bins)+
+                labs(title="A Histogram  showing the distribution of app size",
+                     x="Size of App (mbs)",
+                     y="Number of apps"
+                     
+                ))
+    }
+    if(input$appDetails=="price"){
+      return(
+        ggplot(data = data.clean,aes(x=Price))+geom_histogram(bins = input$bins)+
+          labs(title="Distribution of App prices",
+               x="Price",
+               y="Number of apps")
+      )
+    }
+
+    else{
+      return(NULL)
+    }
+    
+  })
+
+  
+  
 }
+
+

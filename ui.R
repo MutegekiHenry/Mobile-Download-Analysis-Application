@@ -203,14 +203,15 @@ dashboardPage(
                                                                "Android.Ver"
                                                                )
                                        ),
-                                       box(
-                                         title = "Bar Chart of Installs",
-                                         status = "primary",
-                                         solidHeader = TRUE, 
-                                         collapsible = TRUE,
-                                         plotOutput("plot4")
-                                       ),
-                                       box(
+                                       # box(
+                                       #   title = "Bar Chart of Installs",
+                                       #   status = "primary",
+                                       #   solidHeader = TRUE, 
+                                       #   collapsible = TRUE,
+                                       #   plotOutput("plot4")
+                                       # ),
+                                       # box(
+                                       fluidRow(
                                          title = "Dynamic Bar Plot",
                                          status = "primary",
                                          solidHeader = TRUE, 
@@ -220,28 +221,70 @@ dashboardPage(
                                        )
                                        
                               ),# end of Dynamic Bar Plots
-                              
                               tabPanel("Histograms",
-                                       sliderInput("SlideHist","Histogram Slider",
-                                                   min=1,
-                                                   max=200,
-                                                   value = 10
-                                                   ),
-                                  
-                                      selectInput("histo","Histogram selector",
-                                                   choices = c("Category",
-                                                               "Installs",
-                                                               "Last.Updated"
-                                                               
-                                                   )),
-                                       box(
-                                         title = "Histograms...",
-                                         status = "primary",
-                                         solidHeader = TRUE, 
-                                         collapsible = TRUE,
+                                       h3("Description"),
+                                       p("The graphs below show the distribution of different variables (column names) 
+                                           with the number of apps in the dataset. The graphs change according to what the user chooses from
+                                           the dropdown option."),
+                                       fluidRow(
+                                         
+                                         box(title = "controls for the Graph",status = "primary",solidHeader = T,
+                                             sliderInput("bins","Number of Breaks",1,100,50)
+                                         ),
+                                         box(title = "App Details to show their distributions",status = "primary",solidHeader = T,
+                                             "These app deatails were named according to column names in the CSV fie",
+                                             selectInput("appDetails","select app property",c("app_rating","price","size"),selected = "app_rating")
+                                         )
+                                         
+                                         
+                                         
+                                       ),
+                                       fluidRow(
+                                         
+                                         
                                          plotOutput("hist")
+                                         
+                                         
                                        )
+                                       
+                                       
+                                       
+                                       
                               ),
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              # tabPanel("Histograms",
+                              #          sliderInput("SlideHist","Histogram Slider",
+                              #                      min=1,
+                              #                      max=200,
+                              #                      value = 10
+                              #                      ),
+                              #     
+                              #         selectInput("histo","Histogram selector",
+                              #                      choices = c("Category",
+                              #                                  "Installs",
+                              #                                  "Last.Updated"
+                              #                                  
+                              #                      )),
+                              #          box(
+                              #            title = "Histograms...",
+                              #            status = "primary",
+                              #            solidHeader = TRUE, 
+                              #            collapsible = TRUE,
+                              #            plotOutput("hist")
+                              #          )
+                              # ),
                               
                               tabPanel("Scatter Plots",
                                        selectInput("scat","Scatter Selector",
@@ -258,15 +301,16 @@ dashboardPage(
                                                                "Android.Ver"
                                                    )),
                                         
-                                          box(
-                                            title = "3D Scatter Plot",
-                                            status = "primary",
-                                            solidHeader = TRUE, 
-                                            collapsible = TRUE,
-                                            
-                                            plotOutput("sscatter")
-                                          ),
-                                       box(
+                                       #    box(
+                                       #      title = "3D Scatter Plot",
+                                       #      status = "primary",
+                                       #      solidHeader = TRUE, 
+                                       #      collapsible = TRUE,
+                                       #      
+                                       #      plotOutput("sscatter")
+                                       #    ),
+                                       # box(
+                                       fluidRow(
                                          title = "Dynamic Scatter Plot",
                                          status = "primary",
                                          solidHeader = TRUE, 
@@ -333,16 +377,17 @@ dashboardPage(
                                                                "Current.Ver",
                                                                "Android.Ver"
                                                    )),
-                                       box(
-                                         title = "Genre/Install Density Distribution",
-                                         
-                                         status = "primary",
-                                         solidHeader = TRUE, 
-                                         collapsible = TRUE,
-                                         plotOutput("plot")
-                                       ),
-                                       box(
-                                         title = "Dynamic Density Distribution",
+                                       # box(
+                                       #   title = "Genre/Install Density Distribution",
+                                       #   
+                                       #   status = "primary",
+                                       #   solidHeader = TRUE, 
+                                       #   collapsible = TRUE,
+                                       #   plotOutput("plot")
+                                       # ),
+                                       # box(
+                                       fluidRow(  
+                                       title = "Dynamic Density Distribution",
                                          status = "primary",
                                          solidHeader = TRUE, 
                                          collapsible = TRUE,
