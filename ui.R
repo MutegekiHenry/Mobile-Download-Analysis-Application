@@ -349,17 +349,33 @@ dashboardPage(
                               ),#end of Pie Chart Analysis
                               
                               tabPanel("Box Plots",
-                                       box(
-                                         title = "General Box Plot",
-                                         status = "primary",
-                                         solidHeader = TRUE, 
-                                         collapsible = TRUE,
-                                         
-                                         plotOutput("plot3")
-                                         
-                                      
+                                       ui<-fluidPage(
+                                         fluidRow(
                                        
-                              )
+                                           plotOutput("price")
+                                         ),
+                                         fluidRow(
+                                           box(
+                                             title = "General Box Plot",
+                                             status = "primary",
+                                             solidHeader = TRUE, 
+                                             collapsible = TRUE,
+                                             
+                                             highchartOutput("hc_plot3")
+                                             
+                                             
+                                             
+                                           ),
+                                           box(title = "Variation Categories",status = "primary",solidHeader = T,
+                                               selectInput("price","select category",c("boxplot","Regression"),selected = "boxplot_variation")
+                                           )
+                                           
+                                           
+                                         )
+                                       )
+                                       
+                                       
+                               
                               ),
                               
                               tabPanel("Density Plots",
@@ -381,7 +397,7 @@ dashboardPage(
                                        #   title = "Genre/Install Density Distribution",
                                        #   
                                        #   status = "primary",
-                                       #   solidHeader = TRUE, 
+                                        #   solidHeader = TRUE, 
                                        #   collapsible = TRUE,
                                        #   plotOutput("plot")
                                        # ),
@@ -411,22 +427,101 @@ dashboardPage(
                                                                "Last.Updated"="Las",
                                                                "Current.Ver"="Cur",
                                                                "Android.Ver"="And"
+                                                   ),
+                                                   
+                                                   box(
+                                                     title = "Most Popular Categories",
+                                                     status = "primary",
+                                                     solidHeader = TRUE, 
+                                                     collapsible = TRUE,
+                                                     highchartOutput("hc3")
                                                    )
                                        )
                                        
                                        
                               ),
                               
-                              tabPanel("Comparison in Groups",
+                              tabPanel("Bubble Plots",
                                        h3("Description"),
                                        p("Page Description"),
                                        box(
-                                         title = "Comparison in Groups Plot",
+                                         title = "Installs with No Rating",
                                          status = "primary",
                                          solidHeader = TRUE, 
                                          collapsible = TRUE,
-                                         plotOutput("plot6")
-                                       )  
+                                         highchartOutput("hc1")
+                                       ), 
+                                       box(
+                                         title = "NA Categories",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         highchartOutput("hc3")
+                                       ),
+                                       box(
+                                         title = "NA Categories",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         highchartOutput("hc4")
+                                       ),  box(
+                                         title = "NA Categories",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         highchartOutput("hc5")
+                                       ), box(
+                                         title = "NA Categories",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         highchartOutput("hc6")
+                                       ),
+                                       box(
+                                         title = "NA Categories",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         highchartOutput("hc7")
+                                       ),
+                                       box(
+                                         title = "NA Categories",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         highchartOutput("hc8")
+                                       ),
+                                       box(
+                                         title = "NA Categories",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         highchartOutput("hc9")
+                                       ),
+                                       box(
+                                         title = "NA Categories",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         highchartOutput("hc10")
+                                       ),
+                                       box(
+                                         title = "NA Categories",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         highchartOutput("hc11")
+                                       ),
+                                       box(
+                                         title = "NA Categories",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         highchartOutput("hc12")
+                                       )
+                                       
+                                       
+                                       
                               )       
                   ) 
                 ))

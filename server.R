@@ -82,6 +82,7 @@ function(input, output){
     mutate(
       # Eliminate some characters to transform Installs to numeric
       Installs = gsub("\\+", "", as.character(Installs)),
+      Installs = as.numeric(gsub(",", "", Installs)),
       
       
       # Eliminate M to transform Size to numeric
@@ -101,6 +102,8 @@ function(input, output){
       
       #remove varies with device and make it 0
       Android.Ver = gsub("Varies with device", NA, Android.Ver),
+      # Keep only version number to 1 decimal
+      Android.Ver = as.numeric(substr(Android.Ver, start = 1, stop = 3)),
       
       #remove varies with device and make it 0
       Current.Ver = gsub("Varies with device", NA, Current.Ver),
@@ -213,8 +216,11 @@ function(input, output){
   })#end of summary staff
   
   #bar plot for content rating
-  output$plot3<-renderPlot({
-    boxplot(googleplaystore)
+  output$hc_plot3<-renderHighchart({
+    hcboxplot(x = data.clean$Size, var = data.clean$Type, outliers = TRUE, color = "#fb4901", fillColor = "lightblue") %>%
+      hc_chart(type = "column") %>%
+      hc_add_theme(hc_theme_ffx()) %>%
+      hc_title(text = "Application size range (in MB) by Application Type")
   })#end content rating bar
   
   #bar plot for installs
@@ -232,7 +238,7 @@ function(input, output){
         cyl<-data.clean$Size
         #lm(formula = Genre~Installs)
         ggplot(data.clean, aes(x=as.factor(cyl), fill=as.factor(cyl) )) +
-          geom_bar()
+          geom_bar()+ theme(axis.text.x = element_text(angle = 45, hjust = 1))
       }
     else if(input$xs=="Rating"){
       cyl<-data.clean$Rating
@@ -250,7 +256,7 @@ function(input, output){
       cyl<-data.clean$Category
       #lm(formula = Genre~Installs)
       ggplot(data.clean, aes(x=as.factor(cyl), fill=as.factor(cyl) )) +
-        geom_bar()
+        geom_bar()+theme(axis.text.x = element_text(angle = 45, hjust = 1))
     }
     else if(input$xs=="Last.Updated"){
       cyl<-data.clean$Last.Updated
@@ -262,7 +268,7 @@ function(input, output){
       cyl<-data.clean$Android.Ver
       #lm(formula = Genre~Installs)
       ggplot(data.clean, aes(x=as.factor(cyl), fill=as.factor(cyl) )) +
-        geom_bar()
+        geom_bar()+theme(axis.text.x = element_text(angle = 45, hjust = 1))
     }
     else if(input$xs=="Type"){
       cyl<-data.clean$Type
@@ -483,9 +489,9 @@ function(input, output){
     }
     
     else if(input$scat=="Type"){
-      data<-data.frame(d=data.clean$Type,#keeping changing this to see differnet aspects
+      data<-data.frame(d=data.clean$Rating,#keeping changing this to see differnet aspects
                        a=data.clean$Rating,
-                       b=data.clean$Category)
+                       b=data.clean$Installs)
       data1<-na.omit(data)
       #data
       
@@ -600,9 +606,200 @@ function(input, output){
     }
     
   })
-
   
   
+  #HIGH CHARTS
+  
+  output$hc1 <- renderHighchart({
+    data.clean %>%
+      filter(is.na(Rating)) %>%
+      count(Installs) %>%
+      arrange(-n) %>%
+      hchart('column', hcaes(x = "Installs", y = "n")) %>%
+      hc_add_theme(hc_theme_google()) %>%
+      hc_title(text = "Installations with no rating")
+    
+    
+    }) # end hc1
+  output$hc2 <- renderHighchart({
+    data.clean %>%
+      summarise_all(
+        funs(sum(is.na(.)))
+      ) %>%
+      gather() %>%
+      # Only show columns with NA
+      filter(value> 1) %>%
+      arrange(-value) %>%
+      hchart('column', hcaes(x = 'key', y = 'value', color = 'key')) %>%
+      hc_add_theme(hc_theme_elementary()) %>%
+      hc_title(text = "Columns with NA values")   
+  }) # end hc2
+  
+  output$hc3 <- renderHighchart({
+    data.clean %>%
+      count(Category, Installs) %>%
+      group_by(Category) %>%
+      summarize(
+        TotalInstalls = sum(as.numeric(Installs))
+      ) %>%
+      arrange(-TotalInstalls) %>%
+      hchart('scatter', hcaes(x = "Category", y = "TotalInstalls", size = "TotalInstalls", color = "Category")) %>%
+      hc_add_theme(hc_theme_538()) %>%
+      hc_title(text = "Most popular categories (# of installs)")
+  }) # end hc3
+  
+  output$hc4 <- renderHighchart({
+    data.clean %>%
+      count(Rating,Installs) %>%
+      group_by(Rating) %>%
+      summarize(
+        TotalInstalls = sum(as.numeric(Installs))
+      ) %>%
+      arrange(-TotalInstalls) %>%
+      hchart('scatter', hcaes(x = "Rating", y = "TotalInstalls", size = "TotalInstalls", color = "Rating")) %>%
+      hc_add_theme(hc_theme_538()) %>%
+      hc_title(text = "Most popular Rating (# of installs)")
+  }) # end hc4
+  
+  output$hc5 <- renderHighchart({
+    data.clean %>%
+      count(Size,Installs) %>%
+      group_by(Size) %>%
+      summarize(
+        TotalInstalls = sum(as.numeric(Installs))
+      ) %>%
+      arrange(-TotalInstalls) %>%
+      hchart('scatter', hcaes(x = "Size", y = "TotalInstalls", size = "TotalInstalls", color = "Size")) %>%
+      hc_add_theme(hc_theme_538()) %>%
+      hc_title(text = "Most popular Size (# of installs)")
+  }) # end hc4
+  output$hc6 <- renderHighchart({
+    data.clean %>%
+      count(Reviews,Installs) %>%
+      group_by(Reviews) %>%
+      summarize(
+        TotalInstalls = sum(as.numeric(Installs))
+      ) %>%
+      arrange(-TotalInstalls) %>%
+      hchart('scatter', hcaes(x = "Reviews", y = "TotalInstalls", size = "TotalInstalls", color = "Reviews")) %>%
+      hc_add_theme(hc_theme_538()) %>%
+      hc_title(text = "Most popular Riviews (# of installs)")
+  }) # end hc4
+  
+  output$hc7 <- renderHighchart({
+    data.clean %>%
+      count(Type,Installs) %>%
+      group_by(Type) %>%
+      summarize(
+        TotalInstalls = sum(as.numeric(Installs))
+      ) %>%
+      arrange(-TotalInstalls) %>%
+      hchart('scatter', hcaes(x = "Type", y = "TotalInstalls", size = "TotalInstalls", color = "Type")) %>%
+      hc_add_theme(hc_theme_538()) %>%
+      hc_title(text = "Most popular Type (# of installs)")
+  }) # end hc4
+  
+  output$hc8 <- renderHighchart({
+    data.clean %>%
+      count(Price,Installs) %>%
+      group_by(Price) %>%
+      summarize(
+        TotalInstalls = sum(as.numeric(Installs))
+      ) %>%
+      arrange(-TotalInstalls) %>%
+      hchart('scatter', hcaes(x = "Price", y = "TotalInstalls", size = "TotalInstalls", color = "Price")) %>%
+      hc_add_theme(hc_theme_538()) %>%
+      hc_title(text = "Most popular Price (# of installs)")
+  }) # end hc4
+  
+  
+  output$hc9 <- renderHighchart({
+    data.clean %>%
+      count(Content.Rating,Installs) %>%
+      group_by(Content.Rating) %>%
+      summarize(
+        TotalInstalls = sum(as.numeric(Installs))
+      ) %>%
+      arrange(-TotalInstalls) %>%
+      hchart('scatter', hcaes(x = "Content.Rating", y = "TotalInstalls", size = "TotalInstalls", color = "Content.Rating")) %>%
+      hc_add_theme(hc_theme_538()) %>%
+      hc_title(text = "Most popular Content Rating (# of installs)")
+  }) # end hc4
+  
+  
+  output$hc10 <- renderHighchart({
+    data.clean %>%
+      count(Genres,Installs) %>%
+      group_by(Genres) %>%
+      summarize(
+        TotalInstalls = sum(as.numeric(Installs))
+      ) %>%
+      arrange(-TotalInstalls) %>%
+      hchart('scatter', hcaes(x = "Genres", y = "TotalInstalls", size = "TotalInstalls", color = "Genres")) %>%
+      hc_add_theme(hc_theme_538()) %>%
+      hc_title(text = "Most popular Genres (# of installs)")
+  }) # end hc
+  
+  
+  ##PYRAMIDS
+  output$hc11 <- renderHighchart({
+    data.clean %>%
+      filter(Android.Ver > 0, Type %in% c("Free", "Paid")
+      ) %>%
+      group_by(as.factor(Android.Ver), Type) %>%
+      rename(Minimum.Android.Version = "as.factor(Android.Ver)") %>%
+      summarize(Total.Installs = sum(Installs)) %>%
+      hchart('bar', hcaes(x = 'Minimum.Android.Version', y = 'Total.Installs', group = 'Type'))
+    
+  }) # end pyr1
+  
+  output$hc12 <- renderHighchart({
+    tmp <- data.clean %>%
+      group_by(Content.Rating) %>%
+      summarize(Total.Installs = sum(Installs)) %>%
+      arrange(-Total.Installs)
+    
+    highchart() %>%
+      hc_chart(type = "pyramid") %>%
+      hc_add_series_labels_values(
+        labels = tmp$Content.Rating, values = tmp$Total.Installs
+      ) %>%
+      hc_title(
+        text="Number of Installs by Content Rating"
+      ) %>%
+      hc_add_theme(hc_theme_flat())
+    
+  }) # end 
+  
+  
+  
+  ##Box plot 
+  
+  output$price<-renderPlot({
+    if(input$price=="boxplot"){
+      return(
+        ggplot(data=data.clean,aes(x=as.factor(Installs),y=Price,fill=as.factor(Installs)))+
+          theme_bw()+
+          geom_boxplot()+
+          labs(title="A box plot showing the how price affects user ratings",
+               x="Installs",
+               y="price")
+      )
+    }
+    if(input$price=="Regression"){
+      return(
+        ggplot(data=data.clean,aes(x=Rating,y=Price))+
+          geom_point()+
+          geom_smooth(method = lm, se=FALSE)+
+          labs(title="A scatter plot shhowing the correlation between price and user rating",
+               x="User rating",
+               y="Price of Apps"
+               
+          )
+        
+      )
+    }
+  })
 }
 
 
