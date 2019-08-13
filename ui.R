@@ -195,11 +195,8 @@ dashboardPage(
                                                    label = "Bar Chart Analysis",
                                                    choices = c("Category",
                                                                "Rating",
-                                                               "Size",
                                                                "Type",
-                                                               "Price",
                                                                "Content.Rating",
-                                                               "Last.Updated",
                                                                "Android.Ver"
                                                                )
                                        ),
@@ -291,11 +288,11 @@ dashboardPage(
                                                    label = "Select Scatter Variable",
                                                    choices = c(
                                                                "Size",
-                                                               "Installs",
+                                                               "Category",
                                                                "Type",
-                                                               "Price",
+                                                               "Rating",
                                                                "Content.Rating",
-                                                               "Genres",
+                                                               "Price",
                                                                "Last.Updated",
                                                                "Current.Ver",
                                                                "Android.Ver"
@@ -352,7 +349,7 @@ dashboardPage(
                                        ui<-fluidPage(
                                          fluidRow(
                                        
-                                           plotOutput("price")
+                                           plotOutput("bxplot")
                                          ),
                                          fluidRow(
                                            box(
@@ -367,7 +364,16 @@ dashboardPage(
                                              
                                            ),
                                            box(title = "Variation Categories",status = "primary",solidHeader = T,
-                                               selectInput("price","select category",c("boxplot","Regression"),selected = "boxplot_variation")
+                                               selectInput("bxplot","select category",c("Size",
+                                                                                        "Price",
+                                                                                        "Category",
+                                                                                        "Type",
+                                                                                        "Rating",
+                                                                                     
+                                                                                        "Reviews",
+                                                                                       
+                                                                                      
+                                                                                        "Android.Ver"),selected = "boxplot_variation")
                                            )
                                            
                                            
@@ -513,11 +519,25 @@ dashboardPage(
                                          highchartOutput("hc11")
                                        ),
                                        box(
+                                         title = "Pyramid 2",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         highchartOutput("hc14")
+                                       ),
+                                       box(
                                          title = "NA Categories",
                                          status = "primary",
                                          solidHeader = TRUE, 
                                          collapsible = TRUE,
                                          highchartOutput("hc12")
+                                       ),
+                                       box(
+                                         title = "Pyramid 2",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         highchartOutput("hc13")
                                        )
                                        
                                        

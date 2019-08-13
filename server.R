@@ -2,6 +2,7 @@ library(shiny)
 library(DT)
 library(tidyverse)
 library(highcharter) 
+#require("highcharter")
 library(lubridate)
 library(stringr)
 library(xts)
@@ -15,7 +16,7 @@ library(tidyverse)
 library(gganimate)
 library(scatterplot3d)
 library(httpuv)
-#library(grid)
+#library(grid)  
 
 #write.csv(data.clean, file="New.csv")
 
@@ -234,54 +235,54 @@ function(input, output){
   
   #bar plot dynamic render
   output$plot5<-renderPlot({
-      if(input$xs=="Size"){
-        cyl<-data.clean$Size
-        #lm(formula = Genre~Installs)
-        ggplot(data.clean, aes(x=as.factor(cyl), fill=as.factor(cyl) )) +
-          geom_bar()+ theme(axis.text.x = element_text(angle = 45, hjust = 1))
-      }
-    else if(input$xs=="Rating"){
+      # if(input$xs=="Size"){
+      #   cyl<-data.clean$Size
+      #   #lm(formula = Genre~Installs)
+      #   ggplot(data.clean, aes(x=as.factor(cyl), fill=as.factor(cyl) )) +
+      #     geom_bar()+ theme(axis.text.x = element_text(angle = 45, hjust = 1))
+      # }
+    if(input$xs=="Rating"){
       cyl<-data.clean$Rating
       #lm(formula = Genre~Installs)
       ggplot(data.clean, aes(x=as.factor(cyl), fill=as.factor(cyl) )) +
-        geom_bar()
+        geom_bar()+xlab("App Rating") + ylab("Number of apps")
     }
     else if(input$xs=="Content.Rating"){
       cyl<-data.clean$Content.Rating
       #lm(formula = Genre~Installs)
       ggplot(data.clean, aes(x=as.factor(cyl), fill=as.factor(cyl) )) +
-        geom_bar()
+        geom_bar()+xlab("Content Rating") + ylab("Number of apps")
     }
     else if(input$xs=="Category"){
       cyl<-data.clean$Category
       #lm(formula = Genre~Installs)
       ggplot(data.clean, aes(x=as.factor(cyl), fill=as.factor(cyl) )) +
-        geom_bar()+theme(axis.text.x = element_text(angle = 45, hjust = 1))
+        geom_bar()+theme(axis.text.x = element_text(angle = 45, hjust = 1)) +xlab("App Category") + ylab("Number of apps")
     }
-    else if(input$xs=="Last.Updated"){
-      cyl<-data.clean$Last.Updated
-      #lm(formula = Genre~Installs)
-      ggplot(data.clean, aes(x=as.factor(cyl), fill=as.factor(cyl) )) +
-        geom_bar()
-    }
+    # else if(input$xs=="Last.Updated"){
+    #   cyl<-data.clean$Last.Updated
+    #   #lm(formula = Genre~Installs)
+    #   ggplot(data.clean, aes(x=as.factor(cyl), fill=as.factor(cyl) )) +
+    #     geom_bar()
+    # }
     else if(input$xs=="Android.Ver"){
       cyl<-data.clean$Android.Ver
       #lm(formula = Genre~Installs)
       ggplot(data.clean, aes(x=as.factor(cyl), fill=as.factor(cyl) )) +
-        geom_bar()+theme(axis.text.x = element_text(angle = 45, hjust = 1))
+        geom_bar()+theme(axis.text.x = element_text(angle = 45, hjust = 1))+xlab("Andriod Version") + ylab("Number of apps")
     }
     else if(input$xs=="Type"){
       cyl<-data.clean$Type
       #lm(formula = Genre~Installs)
       ggplot(data.clean, aes(x=as.factor(cyl), fill=as.factor(cyl) )) +
-        geom_bar()
+        geom_bar()+xlab("Type of App") + ylab("Number of apps")
     }
-    else if(input$xs=="Price"){
-      cyl<-data.clean$Price
-      #lm(formula = Genre~Installs)
-      ggplot(data.clean, aes(x=as.factor(cyl), fill=as.factor(cyl) )) +
-        geom_bar()
-    }
+    # else if(input$xs=="Price"){
+    #   cyl<-data.clean$Price
+    #   #lm(formula = Genre~Installs)
+    #   ggplot(data.clean, aes(x=as.factor(cyl), fill=as.factor(cyl) )) +
+    #     geom_bar()
+    # }
   })#end of plot 5
   
 
@@ -456,8 +457,8 @@ function(input, output){
     
     if(input$scat=="Content.Rating"){
     data<-data.frame(d=data.clean$Content.Rating,#keeping changing this to see differnet aspects
-                     a=data.clean$Rating,
-                     b=data.clean$Category)
+                     a=data.clean$Content.Rating,
+                     b=data.clean$Installs)
     data1<-na.omit(data)
     #data
     
@@ -465,21 +466,33 @@ function(input, output){
       geom_point(alpha=0.5, size=2.5)#+
     #geom_line(aes(d,a,color="A"))
     }
-    else if(input$scat=="Installs"){
-      data<-data.frame(d=data.clean$Installs,#keeping changing this to see differnet aspects
-                       a=data.clean$Rating,
-                       b=data.clean$Category)
+    else if(input$scat=="Category"){
+      data<-data.frame(d=data.clean$Category,#keeping changing this to see differnet aspects
+                       a=data.clean$Category,
+                       b=data.clean$Installs)
       data1<-na.omit(data)
       #data
       
-      ggplot(data1,aes(a,b,color=format(d))) +
+      ggplot(data1,aes(a,b,color=format(d))) +theme(axis.text.x = element_text(angle = 45, hjust = 1))+
         geom_point(alpha=0.5, size=2.5)#+
       #geom_line(aes(d,a,color="A"))
     }
     else if(input$scat=="Size"){
       data<-data.frame(d=data.clean$Size,#keeping changing this to see differnet aspects
-                       a=data.clean$Rating,
-                       b=data.clean$Category)
+                       a=data.clean$Size,
+                       b=data.clean$Installs)
+      data1<-na.omit(data)
+      #data
+      
+      ggplot(data1,aes(a,b,color=format(d))) +
+        geom_point(alpha=1, size=2.5)#+appDetails
+      #geom_line(aes(d,a,color="A"))
+    }
+    
+    else if(input$scat=="Type"){
+      data<-data.frame(d=data.clean$Type,#keeping changing this to see differnet aspects
+                       a=data.clean$Type,
+                       b=data.clean$Installs)
       data1<-na.omit(data)
       #data
       
@@ -487,8 +500,7 @@ function(input, output){
         geom_point(alpha=0.5, size=2.5)#+
       #geom_line(aes(d,a,color="A"))
     }
-    
-    else if(input$scat=="Type"){
+    else if(input$scat=="Rating"){
       data<-data.frame(d=data.clean$Rating,#keeping changing this to see differnet aspects
                        a=data.clean$Rating,
                        b=data.clean$Installs)
@@ -499,21 +511,10 @@ function(input, output){
         geom_point(alpha=0.5, size=2.5)#+
       #geom_line(aes(d,a,color="A"))
     }
-    else if(input$scat=="Price"){
-      data<-data.frame(d=data.clean$Price,#keeping changing this to see differnet aspects
-                       a=data.clean$Rating,
-                       b=data.clean$Category)
-      data1<-na.omit(data)
-      #data
-      
-      ggplot(data1,aes(a,b,color=format(d))) +
-        geom_point(alpha=0.5, size=2.5)#+
-      #geom_line(aes(d,a,color="A"))
-    }
     else if(input$scat=="Android.Ver"){
       data<-data.frame(d=data.clean$Android.Ver,#keeping changing this to see differnet aspects
-                       a=data.clean$Rating,
-                       b=data.clean$Category)
+                       a=data.clean$Android.Ver,
+                       b=data.clean$Installs)
       data1<-na.omit(data)
       #data
       
@@ -521,10 +522,10 @@ function(input, output){
         geom_point(alpha=0.5, size=2.5)#+
       #geom_line(aes(d,a,color="A"))
     }
-    else if(input$scat=="Genres"){
-      data<-data.frame(d=data.clean$Genres,#keeping changing this to see differnet aspects
-                       a=data.clean$Rating,
-                       b=data.clean$Category)
+    else if(input$scat=="Price"){
+      data<-data.frame(d=data.clean$Price,#keeping changing this to see differnet aspects
+                       a=data.clean$Price,
+                       b=data.clean$Installs)
       data1<-na.omit(data)
       #data
       
@@ -534,8 +535,8 @@ function(input, output){
     }
     else if(input$scat=="Last.Updated"){
       data<-data.frame(d=data.clean$Last.Updated,#keeping changing this to see differnet aspects
-                       a=data.clean$Rating,
-                       b=data.clean$Category)
+                       a=data.clean$Last.Updated,
+                       b=data.clean$Installs)
       data1<-na.omit(data)
       #data
       
@@ -545,8 +546,8 @@ function(input, output){
     }
     else if(input$scat=="Current.Ver"){
       data<-data.frame(d=data.clean$Current.Ver,#keeping changing this to see differnet aspects
-                       a=data.clean$Rating,
-                       b=data.clean$Category)
+                       a=data.clean$Current.Ver,
+                       b=data.clean$Installs)
       data1<-na.omit(data)
       #data
       
@@ -742,6 +743,8 @@ function(input, output){
   
   
   ##PYRAMIDS
+  
+  #bar graph for highcharts 1
   output$hc11 <- renderHighchart({
     data.clean %>%
       filter(Android.Ver > 0, Type %in% c("Free", "Paid")
@@ -752,6 +755,18 @@ function(input, output){
       hchart('bar', hcaes(x = 'Minimum.Android.Version', y = 'Total.Installs', group = 'Type'))
     
   }) # end pyr1
+ 
+  output$hc14 <- renderHighchart({
+    data.clean %>%
+      filter(Rating > 0, Type %in% c("Free", "Paid")
+      ) %>%
+      group_by(as.factor(Rating), Type) %>%
+      rename(Ratings = "as.factor(Rating)") %>%
+      summarize(Total.Installs = sum(Installs)) %>%
+      hchart('bar', hcaes(x = 'Ratings', y = 'Total.Installs', group = 'Type'))
+    
+  }) 
+  
   
   output$hc12 <- renderHighchart({
     tmp <- data.clean %>%
@@ -773,10 +788,29 @@ function(input, output){
   
   
   
+  output$hc13 <- renderHighchart({
+    tmp <- data.clean %>%
+      group_by(Category) %>%
+      summarize(Total.Installs = sum(Installs)) %>%
+      arrange(-Total.Installs)
+    
+    highchart() %>%
+      hc_chart(type = "pyramid") %>%
+      hc_add_series_labels_values(
+        labels = tmp$Category, values = tmp$Total.Installs
+      ) %>%
+      hc_title(
+        text="Number of Installs by Category"
+      ) %>%
+      hc_add_theme(hc_theme_flat())
+    
+  }) # end 
+  
+  
   ##Box plot 
   
-  output$price<-renderPlot({
-    if(input$price=="boxplot"){
+  output$bxplot<-renderPlot({
+    if(input$bxplot=="Price"){
       return(
         ggplot(data=data.clean,aes(x=as.factor(Installs),y=Price,fill=as.factor(Installs)))+
           theme_bw()+
@@ -786,20 +820,67 @@ function(input, output){
                y="price")
       )
     }
-    if(input$price=="Regression"){
+    if(input$bxplot=="Size"){
       return(
-        ggplot(data=data.clean,aes(x=Rating,y=Price))+
-          geom_point()+
-          geom_smooth(method = lm, se=FALSE)+
-          labs(title="A scatter plot shhowing the correlation between price and user rating",
-               x="User rating",
-               y="Price of Apps"
-               
-          )
+        ggplot(data=data.clean,aes(x=as.factor(Installs),y=Size,fill=as.factor(Installs)))+
+          theme_bw()+
+          geom_boxplot()+
+          labs(title="A box plot showing the how Size of Apps affects App Installs",
+               x="Installs",
+               y="Size of Apps")       
+       
+        #Regression model
+        # ggplot(data=data.clean,aes(x=Rating,y=Price))+
+        #   geom_point()+
+        #   geom_smooth(method = lm, se=FALSE)+
+        #   labs(title="A scatter plot shhowing the correlation between price and user rating",
+        #        x="User rating",
+        #        y="Price of Apps"
+        #        
+        #   )
         
       )
     }
-  })
+  
+    if(input$bxplot=="Reviews"){
+      return(
+        ggplot(data=data.clean,aes(x=as.factor(Installs),y=Reviews,fill=as.factor(Installs)))+
+          theme_bw()+
+          geom_boxplot()+
+          labs(title="A box plot showing the how Reviews affects App Installs",
+               x="Installs",
+               y="Reviews")
+      )
+    }
+    
+    
+    
+    if(input$bxplot=="Rating"){
+      return(
+        ggplot(data=data.clean,aes(x=as.factor(Installs),y=Rating,fill=as.factor(Installs)))+
+          theme_bw()+
+          geom_boxplot()+
+          labs(title="A box plot showing the how Rating affects App Installs",
+               x="Installs",
+               y="Rating")
+      )
+    }
+    
+
+    
+    if(input$bxplot=="Android.Ver"){
+      return(
+        ggplot(data=data.clean,aes(x=as.factor(Installs),y=Android.Ver,fill=as.factor(Installs)))+
+          theme_bw()+
+          geom_boxplot()+
+          labs(title="A box plot showing the how Android Ver affects Installs",
+               x="Installs",
+               y="Android.Ver")
+      )
+    }
+    
+    
+    })
 }
 
 
