@@ -322,67 +322,79 @@ function(input, output){
       #curve(-17.579 + 3.932*x, add=TRUE)
   })
   
-  #Another Density Plot
-    output$plot7<-renderPlot({
-      if(input$ab=="Size"){
-        ggplot(data = data.clean[1:10000,], aes(x = Size, y = Installs )) +
-          geom_violin(alpha = 0) +
-          geom_jitter(alpha = 0.8, color = "tomato")
-        #curve(-17.579 + 3.932*x, add=TRUE)
+  #3D- BAR PLOTS
+    output$hc11<-renderHighchart({
+      if(input$ab=="Android.Ver"){
+   
+        data.clean %>%
+          filter(Android.Ver > 0, Type %in% c("Free", "Paid")
+          ) %>%
+          group_by(as.factor(Android.Ver), Type) %>%
+          rename(Minimum.Android.Version = "as.factor(Android.Ver)") %>%
+          summarize(Total.Installs = sum(Installs)) %>%
+          hchart('bar', hcaes(x = 'Minimum.Android.Version', y = 'Total.Installs', group = 'Type'))
+          
+     
       }
       else if(input$ab=="Rating"){
-        ggplot(data = data.clean[1:10000,], aes(x = Rating, y = Installs )) +
-          geom_violin(alpha = 0) +
-          geom_jitter(alpha = 0.8, color = "tomato")
-        #curve(-17.579 + 3.932*x, add=TRUE)
+      #Rating
+        
+        data.clean %>%
+          filter(Rating > 0, Type %in% c("Free", "Paid")
+          ) %>%
+          group_by(as.factor(Rating), Type) %>%
+          rename(Ratings = "as.factor(Rating)") %>%
+          summarize(Total.Installs = sum(Installs)) %>%
+          hchart('bar', hcaes(x = 'Ratings', y = 'Total.Installs', group = 'Type'))
+        
+        
+      
       }
       else if(input$ab=="Reviews"){
-        ggplot(data = data.clean[1:10000,], aes(x = Reviews, y = Installs )) +
-          geom_violin(alpha = 0) +
-          geom_jitter(alpha = 0.8, color = "tomato")
-        #curve(-17.579 + 3.932*x, add=TRUE)
+        data.clean %>%
+          filter( Reviews> 0, Type %in% c("Free", "Paid")
+          ) %>%
+          group_by(as.factor(Reviews), Type) %>%
+          rename(Review = "as.factor(Reviews)") %>%
+          summarize(Total.Installs = sum(Installs)) %>%
+          hchart('bar', hcaes(x = 'Review', y = 'Total.Installs', group = 'Type'))
+        
       }
-      else if(input$ab=="Type"){
-        ggplot(data = data.clean[1:10000,], aes(x = Type, y = Installs )) +
-          geom_violin(alpha = 0) +
-          geom_jitter(alpha = 0.8, color = "tomato")
-        #curve(-17.579 + 3.932*x, add=TRUE)
-      }
-      else if(input$ab=="Content.Rating"){
-        ggplot(data = data.clean[1:10000,], aes(x = Content.Rating, y = Installs )) +
-          geom_violin(alpha = 0) +
-          geom_jitter(alpha = 0.8, color = "tomato")
-        #curve(-17.579 + 3.932*x, add=TRUE)
-      }
+     
+
       else if(input$ab=="Price"){
-        ggplot(data = data.clean[1:10000,], aes(x = Price, y = Installs )) +
-          geom_violin(alpha = 0) +
-          geom_jitter(alpha = 0.8, color = "tomato")
-        #curve(-17.579 + 3.932*x, add=TRUE)
+        data.clean %>%
+          filter( Price> 0, Type %in% c("Free", "Paid")
+          ) %>%
+          group_by(as.factor(Price), Type) %>%
+          rename(Prices = "as.factor(Price)") %>%
+          summarize(Total.Installs = sum(Installs)) %>%
+          hchart('bar', hcaes(x = 'Prices', y = 'Total.Installs', group = 'Type'))
+        
+        
       }
-      else if(input$ab=="Genres"){
-        ggplot(data = data.clean[1:10000,], aes(x = Genres, y = Installs )) +
-          geom_violin(alpha = 0) +
-          geom_jitter(alpha = 0.8, color = "tomato")
-        #curve(-17.579 + 3.932*x, add=TRUE)
-      }
+
       else if(input$ab=="Current.Ver"){
-        ggplot(data = data.clean[1:10000,], aes(x = Current.Ver, y = Installs )) +
-          geom_violin(alpha = 0) +
-          geom_jitter(alpha = 0.8, color = "tomato")
-        #curve(-17.579 + 3.932*x, add=TRUE)
+        data.clean %>%
+          filter( Current.Ver> 0, Type %in% c("Free", "Paid")
+          ) %>%
+          group_by(as.factor(Current.Ver), Type) %>%
+          rename(CurrentVersion = "as.factor(Current.Ver)") %>%
+          summarize(Total.Installs = sum(Installs)) %>%
+          hchart('bar', hcaes(x = 'CurrentVersion', y = 'Total.Installs', group = 'Type'))
+        
       }
-      else if(input$ab=="Last.Updated"){
-        ggplot(data = data.clean[1:10000,], aes(x = Last.Updated, y = Installs )) +
-          geom_violin(alpha = 0) +
-          geom_jitter(alpha = 0.8, color = "tomato")
-        #curve(-17.579 + 3.932*x, add=TRUE)
-      }
-      else if(input$ab=="Android.Ver"){
-        ggplot(data = data.clean[1:10000,], aes(x = Genres, y = Installs )) +
-          geom_violin(alpha = 0) +
-          geom_jitter(alpha = 0.8, color = "tomato")
-        #curve(-17.579 + 3.932*x, add=TRUE)
+ 
+      else if(input$ab=="Size"){
+
+        data.clean %>%
+          filter( Size> 0, Type %in% c("Free", "Paid")
+          ) %>%
+          group_by(as.factor(Size), Type) %>%
+          rename(AppSize = "as.factor(Size)") %>%
+          summarize(Total.Installs = sum(Installs)) %>%
+          hchart('bar', hcaes(x = 'AppSize', y = 'Total.Installs', group = 'Type'))
+  
       }
   })
   
@@ -607,204 +619,318 @@ function(input, output){
     }
     
   })
+
+  ###BUBBLE PLOTS
   
   
-  #HIGH CHARTS
+  output$bubble1<-renderHighchart({
+    if(input$bubble=="Category"){
+      data.clean %>%
+        count(Category, Installs) %>%
+        group_by(Category) %>%
+        summarize(
+          TotalInstalls = sum(as.numeric(Installs))
+        ) %>%
+        arrange(-TotalInstalls) %>%
+        hchart('scatter', hcaes(x = "Category", y = "TotalInstalls", size = "TotalInstalls", color = "Category")) %>%
+        hc_add_theme(hc_theme_538()) %>%
+        hc_title(text = "Most popular categories (# of installs)")
   
-  output$hc1 <- renderHighchart({
-    data.clean %>%
-      filter(is.na(Rating)) %>%
-      count(Installs) %>%
-      arrange(-n) %>%
-      hchart('column', hcaes(x = "Installs", y = "n")) %>%
-      hc_add_theme(hc_theme_google()) %>%
-      hc_title(text = "Installations with no rating")
+    }
+    
+    else if(input$bubble=="Rating"){
+      data.clean %>%
+        count(Rating,Installs) %>%
+        group_by(Rating) %>%
+        summarize(
+          TotalInstalls = sum(as.numeric(Installs))
+        ) %>%
+        arrange(-TotalInstalls) %>%
+        hchart('scatter', hcaes(x = "Rating", y = "TotalInstalls", size = "TotalInstalls", color = "Rating")) %>%
+        hc_add_theme(hc_theme_538()) %>%
+        hc_title(text = "Most popular Rating (# of installs)")
+      
+      
+      
+    }
+    else if(input$bubble=="Size"){
+      data.clean %>%
+        count(Size,Installs) %>%
+        group_by(Size) %>%
+        summarize(
+          TotalInstalls = sum(as.numeric(Installs))
+        ) %>%
+        arrange(-TotalInstalls) %>%
+        hchart('scatter', hcaes(x = "Size", y = "TotalInstalls", size = "TotalInstalls", color = "Size")) %>%
+        hc_add_theme(hc_theme_538()) %>%
+        hc_title(text = "Most popular Size (# of installs)")
+      
+    }
     
     
-    }) # end hc1
-  output$hc2 <- renderHighchart({
-    data.clean %>%
-      summarise_all(
-        funs(sum(is.na(.)))
-      ) %>%
-      gather() %>%
-      # Only show columns with NA
-      filter(value> 1) %>%
-      arrange(-value) %>%
-      hchart('column', hcaes(x = 'key', y = 'value', color = 'key')) %>%
-      hc_add_theme(hc_theme_elementary()) %>%
-      hc_title(text = "Columns with NA values")   
-  }) # end hc2
-  
-  output$hc3 <- renderHighchart({
-    data.clean %>%
-      count(Category, Installs) %>%
-      group_by(Category) %>%
-      summarize(
-        TotalInstalls = sum(as.numeric(Installs))
-      ) %>%
-      arrange(-TotalInstalls) %>%
-      hchart('scatter', hcaes(x = "Category", y = "TotalInstalls", size = "TotalInstalls", color = "Category")) %>%
-      hc_add_theme(hc_theme_538()) %>%
-      hc_title(text = "Most popular categories (# of installs)")
-  }) # end hc3
-  
-  output$hc4 <- renderHighchart({
-    data.clean %>%
-      count(Rating,Installs) %>%
-      group_by(Rating) %>%
-      summarize(
-        TotalInstalls = sum(as.numeric(Installs))
-      ) %>%
-      arrange(-TotalInstalls) %>%
-      hchart('scatter', hcaes(x = "Rating", y = "TotalInstalls", size = "TotalInstalls", color = "Rating")) %>%
-      hc_add_theme(hc_theme_538()) %>%
-      hc_title(text = "Most popular Rating (# of installs)")
-  }) # end hc4
-  
-  output$hc5 <- renderHighchart({
-    data.clean %>%
-      count(Size,Installs) %>%
-      group_by(Size) %>%
-      summarize(
-        TotalInstalls = sum(as.numeric(Installs))
-      ) %>%
-      arrange(-TotalInstalls) %>%
-      hchart('scatter', hcaes(x = "Size", y = "TotalInstalls", size = "TotalInstalls", color = "Size")) %>%
-      hc_add_theme(hc_theme_538()) %>%
-      hc_title(text = "Most popular Size (# of installs)")
-  }) # end hc4
-  output$hc6 <- renderHighchart({
-    data.clean %>%
-      count(Reviews,Installs) %>%
-      group_by(Reviews) %>%
-      summarize(
-        TotalInstalls = sum(as.numeric(Installs))
-      ) %>%
-      arrange(-TotalInstalls) %>%
-      hchart('scatter', hcaes(x = "Reviews", y = "TotalInstalls", size = "TotalInstalls", color = "Reviews")) %>%
-      hc_add_theme(hc_theme_538()) %>%
-      hc_title(text = "Most popular Riviews (# of installs)")
-  }) # end hc4
-  
-  output$hc7 <- renderHighchart({
-    data.clean %>%
-      count(Type,Installs) %>%
-      group_by(Type) %>%
-      summarize(
-        TotalInstalls = sum(as.numeric(Installs))
-      ) %>%
-      arrange(-TotalInstalls) %>%
-      hchart('scatter', hcaes(x = "Type", y = "TotalInstalls", size = "TotalInstalls", color = "Type")) %>%
-      hc_add_theme(hc_theme_538()) %>%
-      hc_title(text = "Most popular Type (# of installs)")
-  }) # end hc4
-  
-  output$hc8 <- renderHighchart({
-    data.clean %>%
-      count(Price,Installs) %>%
-      group_by(Price) %>%
-      summarize(
-        TotalInstalls = sum(as.numeric(Installs))
-      ) %>%
-      arrange(-TotalInstalls) %>%
-      hchart('scatter', hcaes(x = "Price", y = "TotalInstalls", size = "TotalInstalls", color = "Price")) %>%
-      hc_add_theme(hc_theme_538()) %>%
-      hc_title(text = "Most popular Price (# of installs)")
-  }) # end hc4
+    else if(input$bubble=="Type"){
+      data.clean %>%
+        count(Type,Installs) %>%
+        group_by(Type) %>%
+        summarize(
+          TotalInstalls = sum(as.numeric(Installs))
+        ) %>%
+        arrange(-TotalInstalls) %>%
+        hchart('scatter', hcaes(x = "Type", y = "TotalInstalls", size = "TotalInstalls", color = "Type")) %>%
+        hc_add_theme(hc_theme_538()) %>%
+        hc_title(text = "Most popular Type (# of installs)")
+    }
+    
+    else if(input$bubble=="Price"){
+      data.clean %>%
+        count(Price,Installs) %>%
+        group_by(Price) %>%
+        summarize(
+          TotalInstalls = sum(as.numeric(Installs))
+        ) %>%
+        arrange(-TotalInstalls) %>%
+        hchart('scatter', hcaes(x = "Price", y = "TotalInstalls", size = "TotalInstalls", color = "Price")) %>%
+        hc_add_theme(hc_theme_538()) %>%
+        hc_title(text = "Most popular Price (# of installs)")
+      
+    }
+    
+    else if(input$bubble=="Content.Rating"){
+      data.clean %>%
+        count(Content.Rating,Installs) %>%
+        group_by(Content.Rating) %>%
+        summarize(
+          TotalInstalls = sum(as.numeric(Installs))
+        ) %>%
+        arrange(-TotalInstalls) %>%
+        hchart('scatter', hcaes(x = "Content.Rating", y = "TotalInstalls", size = "TotalInstalls", color = "Content.Rating")) %>%
+        hc_add_theme(hc_theme_538()) %>%
+        hc_title(text = "Most popular Content Rating (# of installs)")
+      
+    }
+    
+    
+    else if(input$bubble=="Genres"){
+      data.clean %>%
+        count(Genres,Installs) %>%
+        group_by(Genres) %>%
+        summarize(
+          TotalInstalls = sum(as.numeric(Installs))
+        ) %>%
+        arrange(-TotalInstalls) %>%
+        hchart('scatter', hcaes(x = "Genres", y = "TotalInstalls", size = "TotalInstalls", color = "Genres")) %>%
+        hc_add_theme(hc_theme_538()) %>%
+        hc_title(text = "Most popular Genres (# of installs)")
+      
+    }
+    
+    
+    else if(input$bubble=="Android.Ver"){
+      data.clean %>%
+        count(Android.Ver,Installs) %>%
+        group_by(Android.Ver) %>%
+        summarize(
+          TotalInstalls = sum(as.numeric(Installs))
+        ) %>%
+        arrange(-TotalInstalls) %>%
+        hchart('scatter', hcaes(x = "Android.Ver", y = "TotalInstalls", size = "TotalInstalls", color = "Android.Ver")) %>%
+        hc_add_theme(hc_theme_538()) %>%
+        hc_title(text = "Most popular Android.Ver (# of installs)")
+      
+    }
+    
+    
+    
+    
+  })
   
   
-  output$hc9 <- renderHighchart({
-    data.clean %>%
-      count(Content.Rating,Installs) %>%
-      group_by(Content.Rating) %>%
-      summarize(
-        TotalInstalls = sum(as.numeric(Installs))
-      ) %>%
-      arrange(-TotalInstalls) %>%
-      hchart('scatter', hcaes(x = "Content.Rating", y = "TotalInstalls", size = "TotalInstalls", color = "Content.Rating")) %>%
-      hc_add_theme(hc_theme_538()) %>%
-      hc_title(text = "Most popular Content Rating (# of installs)")
-  }) # end hc4
   
   
-  output$hc10 <- renderHighchart({
-    data.clean %>%
-      count(Genres,Installs) %>%
-      group_by(Genres) %>%
-      summarize(
-        TotalInstalls = sum(as.numeric(Installs))
-      ) %>%
-      arrange(-TotalInstalls) %>%
-      hchart('scatter', hcaes(x = "Genres", y = "TotalInstalls", size = "TotalInstalls", color = "Genres")) %>%
-      hc_add_theme(hc_theme_538()) %>%
-      hc_title(text = "Most popular Genres (# of installs)")
-  }) # end hc
+  
+  
+  
+  
+  
+  #END BUBBLE PLOTS
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   ##PYRAMIDS
   
-  #bar graph for highcharts 1
-  output$hc11 <- renderHighchart({
-    data.clean %>%
-      filter(Android.Ver > 0, Type %in% c("Free", "Paid")
-      ) %>%
-      group_by(as.factor(Android.Ver), Type) %>%
-      rename(Minimum.Android.Version = "as.factor(Android.Ver)") %>%
-      summarize(Total.Installs = sum(Installs)) %>%
-      hchart('bar', hcaes(x = 'Minimum.Android.Version', y = 'Total.Installs', group = 'Type'))
+  output$pyrmd1<-renderHighchart({
+    if(input$pyramid=="Content.Rating"){
+      tmp <- data.clean %>%
+        group_by(Content.Rating) %>%
+        summarize(Total.Installs = sum(Installs)) %>%
+        arrange(-Total.Installs)
+      
+      highchart() %>%
+        hc_chart(type = "pyramid") %>%
+        hc_add_series_labels_values(
+          labels = tmp$Content.Rating, values = tmp$Total.Installs
+        ) %>%
+        hc_title(
+          text="Number of Installs by Content Rating"
+        ) %>%
+        hc_add_theme(hc_theme_flat())
+      
+      
+    }
+    else if(input$pyramid=="Category"){
+      tmp <- data.clean %>%
+        group_by(Category) %>%
+        summarize(Total.Installs = sum(Installs)) %>%
+        arrange(-Total.Installs)
+      
+      highchart() %>%
+        hc_chart(type = "pyramid") %>%
+        hc_add_series_labels_values(
+          labels = tmp$Category, values = tmp$Total.Installs
+        ) %>%
+        hc_title(
+          text="Number of Installs by Category"
+        ) %>%
+        hc_add_theme(hc_theme_flat())
+      
+      
+      
+    }
+    else if(input$pyramid=="Type"){
+      tmp <- data.clean %>%
+        group_by(Type) %>%
+        summarize(Total.Installs = sum(Installs)) %>%
+        arrange(-Total.Installs)
+      
+      highchart() %>%
+        hc_chart(type = "pyramid") %>%
+        hc_add_series_labels_values(
+          labels = tmp$Type, values = tmp$Total.Installs
+        ) %>%
+        hc_title(
+          text="Number of Installs by Type"
+        ) %>%
+        hc_add_theme(hc_theme_flat())
+      
+    }
     
-  }) # end pyr1
+    
+    else if(input$pyramid=="Rating"){
+      tmp <- data.clean %>%
+        group_by(Rating) %>%
+        summarize(Total.Installs = sum(Installs)) %>%
+        arrange(-Total.Installs)
+      
+      highchart() %>%
+        hc_chart(type = "pyramid") %>%
+        hc_add_series_labels_values(
+          labels = tmp$Rating, values = tmp$Total.Installs
+        ) %>%
+        hc_title(
+          text="Number of Installs by Rating"
+        ) %>%
+        hc_add_theme(hc_theme_flat())
+      
+    }
+    
+    else if(input$pyramid=="Android.Ver"){
+      tmp <- data.clean %>%
+        group_by(Android.Ver) %>%
+        summarize(Total.Installs = sum(Installs)) %>%
+        arrange(-Total.Installs)
+      
+      highchart() %>%
+        hc_chart(type = "pyramid") %>%
+        hc_add_series_labels_values(
+          labels = tmp$Android.Ver, values = tmp$Total.Installs
+        ) %>%
+        hc_title(
+          text="Number of Installs by Android Version"
+        ) %>%
+        hc_add_theme(hc_theme_flat())
+      
+    }
+    
+    else if(input$pyramid=="Size"){
+      tmp <- data.clean %>%
+        group_by(Size) %>%
+        summarize(Total.Installs = sum(Installs)) %>%
+        arrange(-Total.Installs)
+      
+      highchart() %>%
+        hc_chart(type = "pyramid") %>%
+        hc_add_series_labels_values(
+          labels = tmp$Size, values = tmp$Total.Installs
+        ) %>%
+        hc_title(
+          text="Number of Installs by Size"
+        ) %>%
+        hc_add_theme(hc_theme_flat())
+      
+    }
+    
+    
+    else if(input$pyramid=="Price"){
+      tmp <- data.clean %>%
+        group_by(Price) %>%
+        summarize(Total.Installs = sum(Installs)) %>%
+        arrange(-Total.Installs)
+      
+      highchart() %>%
+        hc_chart(type = "pyramid") %>%
+        hc_add_series_labels_values(
+          labels = tmp$Price, values = tmp$Total.Installs
+        ) %>%
+        hc_title(
+          text="Number of Installs by Price"
+        ) %>%
+        hc_add_theme(hc_theme_flat())
+      
+    }
+    
+    else if(input$pyramid=="Reviews"){
+      tmp <- data.clean %>%
+        group_by(Reviews) %>%
+        summarize(Total.Installs = sum(Installs)) %>%
+        arrange(-Total.Installs)
+      
+      highchart() %>%
+        hc_chart(type = "pyramid") %>%
+        hc_add_series_labels_values(
+          labels = tmp$Reviews, values = tmp$Total.Installs
+        ) %>%
+        hc_title(
+          text="Number of Installs by Reviews"
+        ) %>%
+        hc_add_theme(hc_theme_flat())
+      
+    }
+    
+    
+    
+    
+  })
+  
+  
+  
+  
+  
+  
+  
+  
+ ##END PYRAMIDS
  
-  output$hc14 <- renderHighchart({
-    data.clean %>%
-      filter(Rating > 0, Type %in% c("Free", "Paid")
-      ) %>%
-      group_by(as.factor(Rating), Type) %>%
-      rename(Ratings = "as.factor(Rating)") %>%
-      summarize(Total.Installs = sum(Installs)) %>%
-      hchart('bar', hcaes(x = 'Ratings', y = 'Total.Installs', group = 'Type'))
-    
-  }) 
-  
-  
-  output$hc12 <- renderHighchart({
-    tmp <- data.clean %>%
-      group_by(Content.Rating) %>%
-      summarize(Total.Installs = sum(Installs)) %>%
-      arrange(-Total.Installs)
-    
-    highchart() %>%
-      hc_chart(type = "pyramid") %>%
-      hc_add_series_labels_values(
-        labels = tmp$Content.Rating, values = tmp$Total.Installs
-      ) %>%
-      hc_title(
-        text="Number of Installs by Content Rating"
-      ) %>%
-      hc_add_theme(hc_theme_flat())
-    
-  }) # end 
-  
-  
-  
-  output$hc13 <- renderHighchart({
-    tmp <- data.clean %>%
-      group_by(Category) %>%
-      summarize(Total.Installs = sum(Installs)) %>%
-      arrange(-Total.Installs)
-    
-    highchart() %>%
-      hc_chart(type = "pyramid") %>%
-      hc_add_series_labels_values(
-        labels = tmp$Category, values = tmp$Total.Installs
-      ) %>%
-      hc_title(
-        text="Number of Installs by Category"
-      ) %>%
-      hc_add_theme(hc_theme_flat())
-    
-  }) # end 
   
   
   ##Box plot 

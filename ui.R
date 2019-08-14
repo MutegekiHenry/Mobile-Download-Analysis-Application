@@ -384,18 +384,14 @@ dashboardPage(
                                
                               ),
                               
-                              tabPanel("Density Plots",
+                              tabPanel("3D-BAR PLOTS",
                                        
                                        selectInput("ab","Density Plots X Axis",
                                                    label = "Analyze Density ",
                                                    choices = c("Rating",
                                                                "Reviews",
                                                                "Size",
-                                                               "Type",
                                                                "Price",
-                                                               "Content.Rating",
-                                                               "Genres",
-                                                               "Last.Updated",
                                                                "Current.Ver",
                                                                "Android.Ver"
                                                    )),
@@ -413,134 +409,52 @@ dashboardPage(
                                          status = "primary",
                                          solidHeader = TRUE, 
                                          collapsible = TRUE,
-                                         plotOutput("plot7")
+                                       highchartOutput("hc11")
                                        )
                                        
                               ),
                               
-                              tabPanel("App Versions",
-                                       selectInput(inputId="x-selector",
-                                                   label = "Select x axis",
-                                                   choices = c("Category"="Cat",
-                                                               "Rating"="Rat",
-                                                               "Reviews"="Rev",
-                                                               "Size"="Siz",
-                                                               "Installs"="Ins",
-                                                               "Type"="Typ",
-                                                               "Price"="Pri",
-                                                               "Content.Rating"="Cont",
-                                                               "Genres"="Gen",
-                                                               "Last.Updated"="Las",
-                                                               "Current.Ver"="Cur",
-                                                               "Android.Ver"="And"
-                                                   ),
+                              tabPanel("Pyramid Plots",
+                                       selectInput("pyramid","Density Plots X Axis",
+                                                   label = "Analyse Pyramids",
+                                                   choices = c("Content.Rating","Category",
+                                                               "Type","Rating",
+                                                               "Size",
+                                                               "Price",
+                                                               "Reviews",
+                                                               "Android.Ver"
+                                                   )),
                                                    
-                                                   box(
+                                                  fluidRow( 
                                                      title = "Most Popular Categories",
                                                      status = "primary",
                                                      solidHeader = TRUE, 
                                                      collapsible = TRUE,
-                                                     highchartOutput("hc3")
+                                                     highchartOutput("pyrmd1")
                                                    )
-                                       )
+                                        
                                        
                                        
                               ),
                               
                               tabPanel("Bubble Plots",
-                                       h3("Description"),
-                                       p("Page Description"),
-                                       box(
-                                         title = "Installs with No Rating",
-                                         status = "primary",
-                                         solidHeader = TRUE, 
-                                         collapsible = TRUE,
-                                         highchartOutput("hc1")
-                                       ), 
-                                       box(
-                                         title = "NA Categories",
-                                         status = "primary",
-                                         solidHeader = TRUE, 
-                                         collapsible = TRUE,
-                                         highchartOutput("hc3")
-                                       ),
-                                       box(
-                                         title = "NA Categories",
-                                         status = "primary",
-                                         solidHeader = TRUE, 
-                                         collapsible = TRUE,
-                                         highchartOutput("hc4")
-                                       ),  box(
-                                         title = "NA Categories",
-                                         status = "primary",
-                                         solidHeader = TRUE, 
-                                         collapsible = TRUE,
-                                         highchartOutput("hc5")
-                                       ), box(
-                                         title = "NA Categories",
-                                         status = "primary",
-                                         solidHeader = TRUE, 
-                                         collapsible = TRUE,
-                                         highchartOutput("hc6")
-                                       ),
-                                       box(
-                                         title = "NA Categories",
-                                         status = "primary",
-                                         solidHeader = TRUE, 
-                                         collapsible = TRUE,
-                                         highchartOutput("hc7")
-                                       ),
-                                       box(
-                                         title = "NA Categories",
-                                         status = "primary",
-                                         solidHeader = TRUE, 
-                                         collapsible = TRUE,
-                                         highchartOutput("hc8")
-                                       ),
-                                       box(
-                                         title = "NA Categories",
-                                         status = "primary",
-                                         solidHeader = TRUE, 
-                                         collapsible = TRUE,
-                                         highchartOutput("hc9")
-                                       ),
-                                       box(
-                                         title = "NA Categories",
-                                         status = "primary",
-                                         solidHeader = TRUE, 
-                                         collapsible = TRUE,
-                                         highchartOutput("hc10")
-                                       ),
-                                       box(
-                                         title = "NA Categories",
-                                         status = "primary",
-                                         solidHeader = TRUE, 
-                                         collapsible = TRUE,
-                                         highchartOutput("hc11")
-                                       ),
-                                       box(
-                                         title = "Pyramid 2",
-                                         status = "primary",
-                                         solidHeader = TRUE, 
-                                         collapsible = TRUE,
-                                         highchartOutput("hc14")
-                                       ),
-                                       box(
-                                         title = "NA Categories",
-                                         status = "primary",
-                                         solidHeader = TRUE, 
-                                         collapsible = TRUE,
-                                         highchartOutput("hc12")
-                                       ),
-                                       box(
-                                         title = "Pyramid 2",
-                                         status = "primary",
-                                         solidHeader = TRUE, 
-                                         collapsible = TRUE,
-                                         highchartOutput("hc13")
-                                       )
+                                       selectInput("bubble","Bubble Plots",
+                                                   label = "Analyse using Bubble plots",
+                                                   choices = c("Content.Rating","Category",
+                                                               "Type","Rating",
+                                                               "Size",
+                                                               "Price",
+                                                             
+                                                               "Android.Ver","Genres"
+                                                   )),
                                        
-                                       
+                                       fluidRow( 
+                                         title = "Most Popular Categories",
+                                         status = "primary",
+                                         solidHeader = TRUE, 
+                                         collapsible = TRUE,
+                                         highchartOutput("bubble1")
+                                       )                                       
                                        
                               )       
                   ) 
